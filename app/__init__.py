@@ -20,8 +20,9 @@ def create_app(config_name):
     moment.init_app(app)
     db.init_app(app)
     login.init_app(app)
-    login.login_view = 'main.login'  # function name for login view i.e. name used in url_for()
-    # works with @login_required decorator below @app.route decorator from Flask
+    # auth.login prefix is blueprint name
+    login.login_view = 'auth.login'  # function name for login view i.e. name used in url_for()
+    # works with @login_required decorator below @app.route decorator from Flask in order to redirect from protected pages
 
     from .main import main as main_blueprint
     from .auth import auth as auth_blueprint

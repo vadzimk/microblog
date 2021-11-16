@@ -34,10 +34,7 @@ def greet(name):
 
 
 
-@main.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('main.index'))
+
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
@@ -50,6 +47,6 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Congratulations {form.username.data} you are now registered user')
-        return redirect(url_for('main.login'))
+        return redirect(url_for('auth.login'))
     return render_template('register.html', title='Register', form=form)
 

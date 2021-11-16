@@ -4,7 +4,7 @@ from .forms import LoginForm
 from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
 from ..models import User
-
+from flask_login import current_user, logout_user, login_required
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -12,7 +12,7 @@ def login():
         return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(email=form.email.data).first()
         print('user', user)
         if user is None or not user.verify_password(form.password.data):
             flash(f'Invalid username or password')
@@ -29,3 +29,11 @@ def login():
     #     flash(f'login requested for user {form.username.data} {form.remember_me.data}')
     #     return redirect(url_for('main.index'))
     # return render_template('login.html', title='Sign in', form=form, username=session.get('username'))
+
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out')
+    return redirect(url_for('main.index'))
