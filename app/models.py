@@ -3,9 +3,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 from flask_login import UserMixin
 
+# tell flask-login how to load user from db
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return User.query.get(int(id))  # converts string to int for the db
 
 # UserMixin that includes generic implementations of required fields for loginManager
 class User(UserMixin, db.Model):
@@ -18,10 +19,16 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<User {self.username}>'
 
-    def set_password(self, password):
+    @property
+    def password(self):
+        """ write only property """
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self, password):
+    def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
 class Post(db.Model):
