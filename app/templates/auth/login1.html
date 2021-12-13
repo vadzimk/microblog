@@ -22,6 +22,6 @@
         <p>{{ form.remember_me() }}{{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
-    <p>New user? <a href="{{ url_for('main.register') }}">Click to register</a></p>
+    <p>New user? <a href="{{ url_for('auth.register') }}">Click to register</a></p>
 {#    {{ wtf.quick_form(form) }}  #}
 {% endblock %}

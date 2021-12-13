@@ -5,11 +5,13 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import config
+from flask_mail import Mail
 
 boostrap = Bootstrap()
 db = SQLAlchemy()
 moment = Moment()
 login = LoginManager()
+mail = Mail()
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -17,6 +19,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     boostrap.init_app(app)
+    mail.init_app(app)
     moment.init_app(app)
     db.init_app(app)
     login.init_app(app)
